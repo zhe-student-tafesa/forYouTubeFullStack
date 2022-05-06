@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+	<!-- 客户端 client -->
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	</head>
+	<body>
+
+		<div ng-app="myApp" ng-controller="myCtrl">
+			<table border="1">
+				<tr  >
+					<td> ISBN </td>
+					<td> Title  </td>
+					<td> Author </td>
+				</tr>
+				<!-- 展示从 服务器 读取的数据 r：row   d:data-->
+				<tr ng-repeat="book in books">
+					<td>{{ book.ISBN }}</td>
+					<td>{{ book.Title }}</td>
+					<td>{{ book.Author }}</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<script>
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', function($scope, $http) { // 增加 系统 变量  $http
+				$http.get("http://localhost/5DWS/session06/get_books.php") //get 服务器 端 脚本 server script
+					.then(function(response) {
+						$scope.books = response.data.records; // 把 得到的数据 保存 到  $scope.books
+						console.log(response);
+					}); // 异步  function (response)为回调函数 
+			});
+		</script>
+
+	</body>
+</html>
